@@ -118,8 +118,8 @@ const path = require('path');
 // Serve frontend static files in production
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-// Catch-all route to serve index.html for React Router
-app.get('*', (req, res) => {
+// Catch-all route to serve index.html for React Router (Express 5 compatible)
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
