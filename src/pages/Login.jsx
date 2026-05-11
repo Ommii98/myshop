@@ -18,8 +18,10 @@ const Login = () => {
       return;
     }
     
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+    
     try {
-      const response = await fetch('http://localhost:3000/api/send-otp', {
+      const response = await fetch(`${backendUrl}/api/send-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contact, method: loginMethod })
@@ -50,8 +52,10 @@ const Login = () => {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
+    const backendUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+
     try {
-      const response = await fetch('http://localhost:3000/api/verify-otp', {
+      const response = await fetch(`${backendUrl}/api/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contact, otp })
