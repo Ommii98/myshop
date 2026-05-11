@@ -116,11 +116,11 @@ app.post('/api/verify-otp', (req, res) => {
 const path = require('path');
 
 // Serve frontend static files in production
-app.use(express.static(path.join(__dirname, '../dist')));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 // Catch-all route to serve index.html for React Router
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
 app.listen(port, () => {
