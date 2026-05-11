@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { toast } from 'react-toastify';
+import { apiUrl } from '../api';
 
 const Login = () => {
   const [loginMethod, setLoginMethod] = useState('phone'); // 'email' or 'phone'
@@ -18,10 +19,8 @@ const Login = () => {
       return;
     }
     
-    const backendUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
-    
     try {
-      const response = await fetch(`${backendUrl}/api/send-otp`, {
+      const response = await fetch(apiUrl('/api/send-otp'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contact, method: loginMethod })
@@ -52,10 +51,8 @@ const Login = () => {
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
-    const backendUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
-
     try {
-      const response = await fetch(`${backendUrl}/api/verify-otp`, {
+      const response = await fetch(apiUrl('/api/verify-otp'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contact, otp })

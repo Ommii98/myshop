@@ -1,0 +1,47 @@
+# render.yaml – Narcha@5 deployment
+# Docs: https://render.com/docs/blueprint-spec
+#
+# This defines TWO separate services:
+#   1. narcha5-backend  – Express API (Web Service)
+#   2. narcha5-frontend – React/Vite build (Static Site)
+#
+# After first deploy, copy the backend URL from the Render dashboard and set
+# it as VITE_API_BASE_URL in the frontend service environment tab.
+
+services:
+  # ─────────────────────────────────────────────────────────────
+  # 1. Backend – Express API-only, no static file serving
+  # ─────────────────────────────────────────────────────────────
+  - type: web
+    name: narcha5-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ALLOWED_ORIGINS
+        # After deploying frontend, replace this with your actual Render static-site URL
+        value: https://narcha5-frontend.onrender.com
+    autoDeploy: true
+
+  # ─────────────────────────────────────────────────────────────
+  # 2. Frontend – Vite static site
+  # ─────────────────────────────────────────────────────────────
+  - type: static
+    name: narcha5-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      # Send all routes to index.html so React Router works
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        # Replace with your narcha5-backend Render URL after first deploy
+        value: https://narcha5-backend.onrender.com
+    autoDeploy: true

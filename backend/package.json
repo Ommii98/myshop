@@ -1,18 +1,21 @@
 {
-  "name": "backend",
+  "name": "narcha5-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Narcha@5 API server",
+  "main": "server.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node --watch server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
+    "compression": "^1.8.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
     "nodemailer": "^8.0.7"
   }
 }
